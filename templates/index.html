@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GameHub - Your Gaming Universe</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            <span>🎮</span> GAMEHUB
+        </div>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="#games">Games</a>
+            <a href="#about">About</a>
+        </nav>
+
+        <div class="nav-buttons">
+
+            {% if session.get("user_id") %}
+
+                <span>
+                    Ciao, {{ session.get("username") }}
+                </span>
+
+                <form action="{{ url_for('logout') }}" method="POST">
+
+                    <button type="submit" class="login-btn">
+                        Logout
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <a href="{{ url_for('login') }}" class="login-btn">
+                    Login
+                </a>
+
+                <a href="{{ url_for('register') }}" class="register-btn">
+                    Registrati
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </header>
+
+
+    <!-- HERO SECTION -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="tagline">
+                YOUR GAMING UNIVERSE
+            </span>
+
+            <h1>
+                DISCOVER YOUR
+                <span>NEXT GAME</span>
+            </h1>
+
+            <p>
+                Esplora nuovi videogiochi, condividi le tue
+                recensioni e scopri la tua prossima avventura.
+            </p>
+
+            <a href="#games" class="main-btn">
+                Esplora i giochi
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <section class="search-section">
+
+        <h2>Trova il tuo prossimo gioco</h2>
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                placeholder="Cerca un videogioco..."
+            >
+
+            <button type="button">
+                Cerca
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- GAMES -->
+
+    <section class="games-section" id="games">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="tagline">
+                    EXPLORE THE LIBRARY
+                </span>
+
+                <h2>Giochi in evidenza</h2>
+            </div>
+
+        </div>
+
+
+        <div class="games-grid">
+
+
+            <!-- GAME 1 -->
+
+            <article class="game-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600"
+                    alt="Gaming setup"
+                >
+
+                <div class="game-info">
+
+                    <span class="genre">
+                        Action RPG
+                    </span>
+
+                    <h3>Elden Ring</h3>
+
+                    <div class="rating">
+                        ★ 9.5/10
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- GAME 2 -->
+
+            <article class="game-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=600"
+                    alt="Videogame setup"
+                >
+
+                <div class="game-info">
+
+                    <span class="genre">
+                        Adventure
+                    </span>
+
+                    <h3>Red Dead Redemption 2</h3>
+
+                    <div class="rating">
+                        ★ 9.8/10
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- GAME 3 -->
+
+            <article class="game-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600"
+                    alt="Gaming controller"
+                >
+
+                <div class="game-info">
+
+                    <span class="genre">
+                        Action
+                    </span>
+
+                    <h3>God of War</h3>
+
+                    <div class="rating">
+                        ★ 9.2/10
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- GAME 4 -->
+
+            <article class="game-card">
+
+                <img
+                    src="https://images.unsplash.com/photo-1547394765-185e1e68f34e?w=600"
+                    alt="Gaming computer"
+                >
+
+                <div class="game-info">
+
+                    <span class="genre">
+                        Shooter
+                    </span>
+
+                    <h3>Cyberpunk 2077</h3>
+
+                    <div class="rating">
+                        ★ 9.0/10
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+
+    <section class="about-section" id="about">
+
+        <h2>Benvenuto nella community GameHub</h2>
+
+        <p>
+            GameHub è il punto d'incontro per tutti gli
+            appassionati di videogiochi.
+
+            Scopri, valuta e condividi i tuoi giochi preferiti.
+        </p>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="logo">
+            🎮 GAMEHUB
+        </div>
+
+        <p>
+            © 2026 GameHub - Your Gaming Universe
+        </p>
+
+    </footer>
+
+
+</body>
+</html>
