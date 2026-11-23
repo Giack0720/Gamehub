@@ -36,6 +36,15 @@
                     Ciao, {{ session.get("username") }}
                 </span>
 
+                {% if session.get("role") == "admin" %}
+
+                    <a href="{{ url_for('dashboard') }}"
+                       class="register-btn">
+                        Dashboard
+                    </a>
+
+                {% endif %}
+
                 <form action="{{ url_for('logout') }}" method="POST">
 
                     <button type="submit" class="login-btn">
@@ -119,11 +128,13 @@
         <div class="section-heading">
 
             <div>
+
                 <span class="tagline">
                     EXPLORE THE LIBRARY
                 </span>
 
                 <h2>Giochi in evidenza</h2>
+
             </div>
 
         </div>

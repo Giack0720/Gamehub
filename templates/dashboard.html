@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard - GameHub</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            🎮 GAMEHUB ADMIN
+        </div>
+
+        <div class="nav-buttons">
+
+            <a href="{{ url_for('home') }}" class="login-btn">
+                Homepage
+            </a>
+
+            <form action="{{ url_for('logout') }}" method="POST">
+
+                <button type="submit" class="login-btn">
+                    Logout
+                </button>
+
+            </form>
+
+        </div>
+
+    </header>
+
+
+    <!-- DASHBOARD -->
+
+    <section class="dashboard">
+
+        <div class="dashboard-heading">
+
+            <div>
+
+                <span class="tagline">
+                    ADMINISTRATION PANEL
+                </span>
+
+                <h1>Dashboard amministratore</h1>
+
+                <p>
+                    Benvenuto, {{ session.get("username") }}.
+                    Gestisci gli utenti della community GameHub.
+                </p>
+
+            </div>
+
+            <div class="admin-badge">
+                ADMIN
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGGI -->
+
+        {% with messages = get_flashed_messages() %}
+
+            {% for message in messages %}
+
+                <div class="message">
+                    {{ message }}
+                </div>
+
+            {% endfor %}
+
+        {% endwith %}
+
+
+        <!-- STATISTICHE -->
+
+        <div class="dashboard-stats">
+
+            <div class="stat-card">
+
+                <span class="stat-icon">👥</span>
+
+                <h3>Utenti totali</h3>
+
+                <p>{{ total_users }}</p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">🛡️</span>
+
+                <h3>Amministratori</h3>
+
+                <p>{{ total_admins }}</p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">✉️</span>
+
+                <h3>Email verificate</h3>
+
+                <p>{{ verified_users }}</p>
+
+            </div>
+
+        </div>
+
+
+        <!-- GESTIONE UTENTI -->
+
+        <div class="dashboard-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="tagline">
+                        USER MANAGEMENT
+                    </span>
+
+                    <h2>Gestione utenti</h2>
+
+                </div>
+
+                <span class="total-label">
+                    {{ total_users }} account
+                </span>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Username</th>
+
+                            <th>Email</th>
+
+                            <th>Ruolo</th>
+
+                            <th>Verifica</th>
+
+                            <th>Azioni</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for user in users %}
+
+                        <tr>
+
+                            <td>#{{ user["id"] }}</td>
+
+                            <td>
+                                {{ user["username"] }}
+                            </td>
+
+                            <td>
+                                {{ user["email"] }}
+                            </td>
+
+
+                            <td>
+
+                                {% if user["role"] == "admin" %}
+
+                                    <span class="admin-label">
+                                        ADMIN
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="user-label">
+                                        USER
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                {% if user["is_verified"] %}
+
+                                    <span class="verified-label">
+                                        ✓ Verificato
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="unverified-label">
+                                        Non verificato
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td class="actions-cell">
+
+
+                                <!-- MODIFICA RUOLO -->
+
+                                <form
+                                    action="{{ url_for('change_role', user_id=user['id']) }}"
+                                    method="POST">
+
+                                    <select name="role">
+
+                                        <option value="user"
+                                            {% if user["role"] == "user" %}selected{% endif %}>
+                                            Utente
+                                        </option>
+
+                                        <option value="admin"
+                                            {% if user["role"] == "admin" %}selected{% endif %}>
+                                            Amministratore
+                                        </option>
+
+                                    </select>
+
+                                    <button type="submit">
+                                        Salva
+                                    </button>
+
+                                </form>
+
+
+                                <!-- ELIMINAZIONE UTENTE -->
+
+                                {% if user["id"] != session["user_id"] %}
+
+                                    <form
+                                        action="{{ url_for('delete_user', user_id=user['id']) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Sei sicuro di voler eliminare questo utente?')">
+
+                                        <button type="submit" class="delete-btn">
+                                            Elimina
+                                        </button>
+
+                                    </form>
+
+                                {% endif %}
+
+
+                            </td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="6">
+                                Nessun utente registrato.
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <div class="logo">
+            🎮 GAMEHUB
+        </div>
+
+        <p>
+            Pannello amministratore - GameHub 2026
+        </p>
+
+    </footer>
+
+
+</body>
+</html>
